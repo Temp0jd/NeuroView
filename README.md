@@ -1,59 +1,47 @@
-🧠 NeuroView
-A simple brain sample exploration web app
-(Built to fulfill the goals of my bioinformatics project proposal)
+# NeuroView
 
-📌 What is this?
-This is a lightweight web project I’m building to explore brain region data interactively — kind of inspired by BrainAtlas and Single Cell Portal. It’s built using Flask for the backend, with clean front-end pages in HTML/CSS and some JavaScript for interactivity.
+NeuroView is a simple web-based brain sample exploration platform developed to fulfill the core requirements of my BF768 project proposal.
 
-The goal of this project is to fulfill the functional requirements defined in my project proposal, including metadata filtering, dataset exploration, anatomical visualization, and expression data viewer.
+## Purpose
 
-✅ What I’ve done so far:
-Home Page: Clean landing page with logo and 4 big navigation bubbles (Studies, Portrait, Data Viewer, Help).
+The aim of this project is to build a modular and interactive interface for exploring brain region datasets. It aligns directly with the proposal’s goals, including:
 
-Studies Page:
+- Displaying structured metadata
+- Filtering by multiple biological attributes
+- Interactive visualization of selected brain regions
+- Linking dataset summaries with external references
 
-Card-style layout for each dataset
+## Current Features
 
-Multi-tag filters (species, region, seq type, etc.)
+- **Home Page**: Navigation hub linking to major modules
+- **Studies Page**:
+  - Dataset cards (title, summary, tags, dataset ID)
+  - Filter panel with search inputs by species, region, seq type, etc.
+  - Keyword search and dynamic card filtering (JavaScript-enabled)
+- **Portrait Page**:
+  - Brain image with clickable regions
+  - Region-based navigation to the Data Viewer
+- **Data Viewer**:
+  - Accepts `region` as URL parameter
+  - Displays placeholder UMAP-style plot for selected brain region
 
-A top search bar for fuzzy keyword search
+## Tech Stack
 
-JS handles live filtering and rendering
+- Flask (Python)
+- HTML / CSS / JavaScript
+- Plotly.js (for visualization)
+- Static JSON (used as initial data source)
 
-Portrait Page:
+## Future Work
 
-Brain anatomy image with clickable regions
+- Integrate real dataset values and expression matrices
+- Add dropdowns (Atlas, Feature, Cell Type)
+- Support dataset detail pages and dynamic linking
 
-Click a region → opens Data Viewer for that part of the brain
+## Run Locally
 
-Data Viewer Page:
+```bash
+python app.py
+```
 
-Reads ?region= from the URL
-
-Displays a placeholder UMAP-style scatter plot using Plotly
-
-Designed to show expression/feature plots for a brain region
-
-📄 How it maps to my proposal:
-Proposal Requirement	Status
-Metadata filtering and display	✅ Implemented in Studies page with filters and live search
-Dataset overview (cards, search)	✅ Done with dynamic cards + dataset ID
-Region-based navigation	✅ Portrait page with clickable regions
-Interactive visualization	✅ Data Viewer with region-based plotting
-Modular, expandable pages	✅ Each module (Studies, Viewer, etc.) is cleanly separated
-
-⚙️ Tech Stack
-Python + Flask
-
-HTML + CSS (custom)
-
-JavaScript + Plotly.js
-
-No database yet — just static JSON for now
-
-🛠 What’s next?
-Add dropdowns for Atlas / Cell type / Feature
-
-Load actual data dynamically
-
-Support for dataset detail pages like /studies/GSExxxxx
+Then visit `http://127.0.0.1:5000` in your browser.
