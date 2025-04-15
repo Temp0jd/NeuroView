@@ -101,16 +101,17 @@
       margin: 0 0 8px;
       font-size: 18px;
       color: #2c5eff;
+      cursor: pointer;
     }
     .study-card p {
       margin: 0 0 12px;
       font-size: 14px;
       color: #333;
     }
-    .study-card .dataset-id {
+    .study-card .dataset-id, .study-card .year {
       font-size: 13px;
       color: #888;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
     .study-card .tags {
       display: flex;
@@ -135,7 +136,6 @@
   </style>
 </head>
 <body>
-  <!-- top panel -->
   <div class="topbar">
     <div class="logo">🧠 NeuroView</div>
     <div class="nav-links">
@@ -146,7 +146,6 @@
     </div>
   </div>
 
-  <!-- Filter Panel -->
   <div class="filters">
     <div class="filter-tag">Species <input type="text" placeholder="e.g. Human"></div>
     <div class="filter-tag">Region <input type="text" placeholder="e.g. Cortex"></div>
@@ -155,18 +154,23 @@
     <div class="filter-tag">Conditions <input type="text" placeholder="e.g. Disease"></div>
     <div class="filter-tag">Model <input type="text" placeholder="e.g. Mouse"></div>
     <div class="filter-tag">Journal <input type="text" placeholder="e.g. Nature"></div>
-    <div class="filter-tag">Year <input type="text" placeholder="e.g. 2024"></div>
+    <div class="filter-tag">
+      Year
+      <input type="text" placeholder="e.g. 2024">
+      <button id="sortYearBtn" onclick="toggleSortOrder()">⇅ Sort</button>
+    </div>
+    <div class="filter-tag">Dataset <input type="text" placeholder="e.g. GSE12345"></div>
     <div class="search-box">
       <input type="text" placeholder="Search title or summary">
       <button>Search</button>
     </div>
   </div>
 
-  <!-- Dataset Cards -->
   <div class="card-container">
     <div class="study-card">
-      <h3>Cell states in esophageal adenocarcinoma (snRNA-seq)</h3>
+      <h3 onclick="window.open('https://doi.org/10.1234/example1')">Cell states in esophageal adenocarcinoma (snRNA-seq)</h3>
       <div class="dataset-id">GSE174332</div>
+      <div class="year">2019</div>
       <p>Study on clinical stages of EAC using single-nucleus RNA-seq, covering tumor microenvironments and differentiation states.</p>
       <div class="tags">
         <span class="tag">Esophageal adenocarcinoma</span>
@@ -174,12 +178,13 @@
         <span class="tag">snRNA-seq</span>
         <span class="tag">Adrenal gland</span>
       </div>
-      <a class="link" href="#">View Dataset &rarr;</a>
+      <a class="link" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174332" target="_blank">View Dataset →</a>
     </div>
 
     <div class="study-card">
-      <h3>scATAC-seq atlas of retinal pigment epithelium</h3>
+      <h3 onclick="window.open('https://doi.org/10.1234/example2')">scATAC-seq atlas of retinal pigment epithelium</h3>
       <div class="dataset-id">GSE200123</div>
+      <div class="year">2022</div>
       <p>scATAC-seq profiling of retinal development and degeneration, identifying cell-type-specific chromatin landscapes.</p>
       <div class="tags">
         <span class="tag">Macular degeneration</span>
@@ -187,10 +192,9 @@
         <span class="tag">scATAC-seq</span>
         <span class="tag">Eye</span>
       </div>
-      <a class="link" href="#">View Dataset &rarr;</a>
+      <a class="link" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE200123" target="_blank">View Dataset →</a>
     </div>
   </div>
   <script src="/static/js/studies.js"></script>
-
 </body>
 </html>
