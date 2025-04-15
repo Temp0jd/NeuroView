@@ -1,0 +1,196 @@
+<!-- templates/studies.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroView - Studies</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fb;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 30px;
+      background-color: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .topbar .logo {
+      font-weight: bold;
+      font-size: 22px;
+      color: #2c3e50;
+    }
+    .topbar .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #2c5eff;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .nav-link:hover {
+      background-color: #eef3ff;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 30px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    .filter-tag {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: white;
+      font-size: 14px;
+      width: 160px;
+    }
+    .filter-tag input {
+      margin-top: 6px;
+      padding: 4px 6px;
+      font-size: 13px;
+    }
+    .search-box {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-box input {
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .search-box button {
+      padding: 6px 12px;
+      background-color: #2c5eff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px 30px 60px;
+    }
+    .study-card {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .study-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #2c5eff;
+    }
+    .study-card p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #333;
+    }
+    .study-card .dataset-id {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .study-card .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .study-card .tag {
+      background-color: #dff0ff;
+      color: #2c5eff;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    .study-card .link {
+      margin-top: 10px;
+      display: inline-block;
+      font-size: 13px;
+      color: #2c5eff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <div class="topbar">
+    <div class="logo">🧠 NeuroView</div>
+    <div class="nav-links">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/portrait">Portrait</a>
+      <a class="nav-link" href="/viewer">Data Viewer</a>
+      <a class="nav-link" href="/help">Help</a>
+    </div>
+  </div>
+
+  <!-- Filter Panel -->
+  <div class="filters">
+    <div class="filter-tag">Species <input type="text" placeholder="e.g. Human"></div>
+    <div class="filter-tag">Region <input type="text" placeholder="e.g. Cortex"></div>
+    <div class="filter-tag">Subregion <input type="text" placeholder="e.g. Motor"></div>
+    <div class="filter-tag">Seq Type <input type="text" placeholder="e.g. snRNA-seq"></div>
+    <div class="filter-tag">Conditions <input type="text" placeholder="e.g. Disease"></div>
+    <div class="filter-tag">Model <input type="text" placeholder="e.g. Mouse"></div>
+    <div class="filter-tag">Journal <input type="text" placeholder="e.g. Nature"></div>
+    <div class="filter-tag">Year <input type="text" placeholder="e.g. 2024"></div>
+    <div class="search-box">
+      <input type="text" placeholder="Search title or summary">
+      <button>Search</button>
+    </div>
+  </div>
+
+  <!-- Dataset Cards -->
+  <div class="card-container">
+    <div class="study-card">
+      <h3>Cell states in esophageal adenocarcinoma (snRNA-seq)</h3>
+      <div class="dataset-id">GSE174332</div>
+      <p>Study on clinical stages of EAC using single-nucleus RNA-seq, covering tumor microenvironments and differentiation states.</p>
+      <div class="tags">
+        <span class="tag">Esophageal adenocarcinoma</span>
+        <span class="tag">Human</span>
+        <span class="tag">snRNA-seq</span>
+        <span class="tag">Adrenal gland</span>
+      </div>
+      <a class="link" href="#">View Dataset &rarr;</a>
+    </div>
+
+    <div class="study-card">
+      <h3>scATAC-seq atlas of retinal pigment epithelium</h3>
+      <div class="dataset-id">GSE200123</div>
+      <p>scATAC-seq profiling of retinal development and degeneration, identifying cell-type-specific chromatin landscapes.</p>
+      <div class="tags">
+        <span class="tag">Macular degeneration</span>
+        <span class="tag">Human</span>
+        <span class="tag">scATAC-seq</span>
+        <span class="tag">Eye</span>
+      </div>
+      <a class="link" href="#">View Dataset &rarr;</a>
+    </div>
+  </div>
+  <script src="/static/js/studies.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!-- templates/portrait.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroView - Portrait</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      text-align: center;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 30px;
+      background-color: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .topbar .logo {
+      font-weight: bold;
+      font-size: 22px;
+      color: #2c3e50;
+    }
+    .topbar .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #2c5eff;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .nav-link:hover {
+      background-color: #eef3ff;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #2c3e50;
+    }
+    p {
+      color: #555;
+      margin-bottom: 30px;
+    }
+    .brain-map {
+      position: relative;
+      display: inline-block;
+    }
+    .brain-map img {
+      max-width: 100%;
+      height: auto;
+    }
+    .region-label {
+      position: absolute;
+      padding: 4px 8px;
+      background-color: #eaf2ff;
+      border-radius: 5px;
+      color: #2c5eff;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .region-label:hover {
+      background-color: #d2e4ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <div class="topbar">
+    <div class="logo">🧠 NeuroView</div>
+    <div class="nav-links">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/studies">Studies</a>
+      <a class="nav-link" href="/viewer">Data Viewer</a>
+      <a class="nav-link" href="/help">Help</a>
+    </div>
+  </div>
+
+  <h2>Anatomical Portrait of the Adult Brain</h2>
+  <p>Click a region to view corresponding data in the Data Viewer</p>
+
+  <div class="brain-map">
+    <img src="/static/img/brain_diagram.png" alt="Brain Diagram">
+
+    <!-- 可点击区域（示例）-->
+    <div class="region-label" style="top: 130px; left: 300px;" onclick="location.href='/viewer?region=Cerebral%20Cortex'">Cerebral Cortex</div>
+    <div class="region-label" style="top: 260px; left: 170px;" onclick="location.href='/viewer?region=Hippocampus'">Hippocampus</div>
+    <div class="region-label" style="top: 200px; left: 400px;" onclick="location.href='/viewer?region=Thalamus'">Thalamus</div>
+    <div class="region-label" style="top: 320px; left: 320px;" onclick="location.href='/viewer?region=Cerebellum'">Cerebellum</div>
+    <!-- 你可以继续添加更多区域 -->
+  </div>
+</body>
+</html>
