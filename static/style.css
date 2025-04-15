@@ -87,3 +87,10 @@ body {
   background-color: white;
   cursor: pointer;
 }
+
+.tag-active {
+  background-color: #ffe8b3;
+  color: #aa5d00;
+  border: 1px solid #ffc266;
+  font-weight: bold;
+}
