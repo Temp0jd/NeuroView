@@ -1,17 +1,35 @@
-<!-- templates/studies.html -->
+<!-- studies.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>NeuroView - Studies</title>
+
+  <!-- 引入外部样式表 / Link to external stylesheet -->
   <link rel="stylesheet" href="/static/style.css">
+  
+  <!-- 引入 jQuery 库 / jQuery for DOM manipulation -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <style>
+    /* 全局设置 / Global layout and font settings */
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #f8f9fb;
     }
+
+    /* 期刊标签样式 / Journal tag styling */
+    .journal-tag {
+      background-color: #ffe0f0;
+      color: #aa336a;
+      padding: 3px 8px;
+      font-size: 12px;
+      border-radius: 8px;
+      margin-right: 6px;
+    }
+
+    /* 顶部导航栏样式 / Top navigation bar */
     .topbar {
       display: flex;
       align-items: center;
@@ -20,11 +38,15 @@
       background-color: white;
       border-bottom: 1px solid #e0e0e0;
     }
+
+    /* logo 样式 / Logo styling */
     .topbar .logo {
       font-weight: bold;
       font-size: 22px;
       color: #2c3e50;
     }
+
+    /* 导航链接样式 / Navigation links */
     .topbar .nav-links {
       display: flex;
       gap: 16px;
@@ -39,6 +61,8 @@
     .nav-link:hover {
       background-color: #eef3ff;
     }
+
+    /* 筛选器容器 / Filter input section */
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -48,6 +72,8 @@
       background-color: #ffffff;
       border-bottom: 1px solid #ddd;
     }
+
+    /* 每个筛选项样式 / Each filter box */
     .filter-tag {
       display: flex;
       flex-direction: column;
@@ -64,6 +90,8 @@
       padding: 4px 6px;
       font-size: 13px;
     }
+
+    /* 搜索框和按钮样式 / Search bar and button */
     .search-box {
       margin-left: auto;
       display: flex;
@@ -84,12 +112,16 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
+    /* 结果卡片容器 / Study cards wrapper */
     .card-container {
       display: flex;
       flex-direction: column;
       gap: 20px;
       padding: 20px 30px 60px;
     }
+
+    /* 单张研究卡片样式 / Individual study card */
     .study-card {
       background-color: white;
       border: 1px solid #ddd;
@@ -108,6 +140,8 @@
       font-size: 14px;
       color: #333;
     }
+
+    /* 卡片内标签、年份、信息 / Tags and meta info */
     .study-card .dataset-id, .study-card .year {
       font-size: 13px;
       color: #888;
@@ -125,26 +159,21 @@
       padding: 4px 10px;
       border-radius: 12px;
       font-size: 12px;
-    }
-    .study-card .tag {
-      background-color: #dff0ff;
-      color: #2c5eff;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 12px;
       cursor: pointer;
     }
+
+    /* 激活标签样式 / Active tag when clicked */
     .tag-active {
       background-color: #ffe8b3 !important;
       color: #aa5d00 !important;
       border: 1px solid #ffc266 !important;
       font-weight: bold;
     }
-    
-
   </style>
 </head>
+
 <body>
+  <!-- 顶部栏区域 / Header topbar -->
   <div class="topbar">
     <div class="logo">🧠 NeuroView</div>
     <div class="nav-links">
@@ -155,49 +184,29 @@
     </div>
   </div>
 
+  <!-- 筛选器区域 / Filtering section -->
   <div class="filters">
     <div class="filter-tag">Species <input type="text" placeholder="e.g. Human"></div>
-    <div class="filter-tag">Organ <input type="text" placeholder="e.g. Cortex or Motor"></div>
-    <div class="filter-tag">Seq Type <input type="text" placeholder="e.g. snRNA-seq"></div>
-    <div class="filter-tag">Conditions <input type="text" placeholder="e.g. Disease"></div>
+    <div class="filter-tag">Seq type <input type="text" placeholder="e.g. snRNA-seq"></div>
+    <div class="filter-tag">Region <input type="text" placeholder="e.g. hippocampus or forebrain"></div>
+    <div class="filter-tag">Focus <input type="text" placeholder="e.g. Alzheimer's"></div>
     <div class="filter-tag">Journal <input type="text" placeholder="e.g. Nature"></div>
-    <div class="filter-tag">Year <input type="text" placeholder="e.g. 2024">
-    </div>
+    <div class="filter-tag">Year <input type="text" placeholder="e.g. 2023"></div>
     <div class="search-box">
       <input type="text" placeholder="Search title or summary">
       <button>Search</button>
     </div>
+    <!-- 清除按钮 / Clear filters button -->
+    <button id="clearFilters" style="margin-left: 10px; padding: 6px 12px;">Clear Filters</button>
   </div>
 
-  <div class="card-container">
-    <div class="study-card">
-      <h3 onclick="window.open('https://doi.org/10.1234/example1')">Cell states in esophageal adenocarcinoma (snRNA-seq)</h3>
-      <div class="dataset-id">GSE174332</div>
-      <div class="year">2019</div>
-      <p>Study on clinical stages of EAC using single-nucleus RNA-seq, covering tumor microenvironments and differentiation states.</p>
-      <div class="tags">
-        <span class="tag">Esophageal adenocarcinoma</span>
-        <span class="tag">Human</span>
-        <span class="tag">snRNA-seq</span>
-        <span class="tag">Adrenal gland</span>
-      </div>
-      <a class="link" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174332" target="_blank">View Dataset →</a>
-    </div>
+  <!-- 卡片显示区域 / Dynamic card container -->
+  <div class="card-container"></div>
+  <!-- 分页区域 / Pagination controls -->
+  <div id="pagination" class="pagination" style="text-align:center; padding: 20px;"></div>
 
-    <div class="study-card">
-      <h3 onclick="window.open('https://doi.org/10.1234/example2')">scATAC-seq atlas of retinal pigment epithelium</h3>
-      <div class="dataset-id">GSE200123</div>
-      <div class="year">2022</div>
-      <p>scATAC-seq profiling of retinal development and degeneration, identifying cell-type-specific chromatin landscapes.</p>
-      <div class="tags">
-        <span class="tag">Macular degeneration</span>
-        <span class="tag">Human</span>
-        <span class="tag">scATAC-seq</span>
-        <span class="tag">Eye</span>
-      </div>
-      <a class="link" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE200123" target="_blank">View Dataset →</a>
-    </div>
-  </div>
+  <!-- 引入数据和脚本 / Load data and script -->
+  <script src="/static/js/studies_data.js"></script>
   <script src="/static/js/studies.js"></script>
 </body>
 </html>
