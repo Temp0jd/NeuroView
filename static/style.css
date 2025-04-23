@@ -94,3 +94,18 @@ body {
   border: 1px solid #ffc266;
   font-weight: bold;
 }
+
+#pagination button {
+  background-color: #2c5eff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 0 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+#pagination button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
