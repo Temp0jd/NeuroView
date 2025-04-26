@@ -18,18 +18,52 @@
     p.subtitle { text-align:center; color:#666; margin-bottom:30px; }
 
     /* ================= 脑图与气泡 / Brain figure & bubbles ================ */
-    .brain-wrapper { position:relative; max-width:820px; margin:0 auto; }
-    .brain-wrapper img { width:100%; height:auto; display:block; }
+    .brain-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .brain-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .region {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      opacity: 0.3; /* faint visible */
+      cursor: pointer;
+      transition: opacity 0.3s ease, filter 0.3s ease;
+      z-index: 2;
+    }
+    .region.hovered {
+      opacity: 1; /* highlight on hover */
+      filter: drop-shadow(0 0 6px #ffc107);
+    }
+    .region.selected {
+      opacity: 1; /* lock highlight on click */
+      filter: drop-shadow(0 0 8px #ff5722);
+    }
+
+
 
     /* 点击区域容器 / Region wrapper */
-    .region { position:absolute; width:60px; height:60px; cursor:pointer; }
+    /* .region { position:absolute; width:60px; height:60px; cursor:pointer; } */
     /* 小气泡 / Bubble label */
-    .region .bubble { position:absolute; top:0; left:70px; white-space:nowrap; padding:4px 10px; background:#eaf2ff; color:#2c5eff; font-size:13px; border-radius:16px; box-shadow:0 0 0 2px #ffffff; transition:all .2s; }
+    /* .region .bubble { position:absolute; top:0; left:70px; white-space:nowrap; padding:4px 10px; background:#eaf2ff; color:#2c5eff; font-size:13px; border-radius:16px; box-shadow:0 0 0 2px #ffffff; transition:all .2s; } */
     /* 悬浮/激活效果 / Hover & active */
-    .region.active .bubble, .region:hover .bubble { background:#ffc23c; color:#333; filter:drop-shadow(0 0 6px #ffc23c); }
+    /* .region.active .bubble, .region:hover .bubble { background:#ffc23c; color:#333; filter:drop-shadow(0 0 6px #ffc23c); } */
 
     /* ================= Tooltip 悬浮窗 ================= */
-    #tooltip { position:fixed; z-index:9999; background:#ffffff; border:1px solid #ddd; border-radius:8px; padding:10px 14px; box-shadow:0 2px 8px rgba(0,0,0,.1); font-size:13px; color:#333; pointer-events:none; display:none; max-width:240px; }
+    /* #tooltip { position:fixed; z-index:9999; background:#ffffff; border:1px solid #ddd; border-radius:8px; padding:10px 14px; box-shadow:0 2px 8px rgba(0,0,0,.1); font-size:13px; color:#333; pointer-events:none; display:none; max-width:240px; } */
 
     /* ================= 结果面板 / Result panel ================ */
     #results-panel { max-width:1100px; margin:40px auto; padding:20px 30px; border:1px solid #ddd; border-radius:12px; background:#fafbfd; display:none; }
@@ -41,6 +75,7 @@
     .dataset-link { font-size:12px; color:#2c5eff; text-decoration:none; }
   </style>
 </head>
+
 <body>
   <!-- 顶部导航 / Top navigation -->
   <div class="topbar">
@@ -58,47 +93,18 @@
 
   <!-- 脑图容器 / Brain figure container -->
   <div class="brain-wrapper" id="brainWrapper">
-    <img id="brainImg" src="/static/img/brain_portrait.png" alt="Brain diagram" />
-
-    <!-- ▼ 区域：大脑皮层 / Region: forebrain, Cerebral Cortex -->
-    <div class="region" data-region="cerebral cortex" style="top:10px; left:220px;">
-      <span class="bubble">Cerebral cortex</span>
-    </div>
-
-    <!-- ▼  / Region: forebrain, thalamus -->
-    <div class="region" data-region="thalamus" style="top:235px; left:220px;">
-      <span class="bubble">Thalamus</span>
-    </div>
-
-    <!-- 可在此处添加更多 .region 元素 / Add more .region elements here -->
-
-    <!-- ▼ 区域： / Region: forebrain, Cerebral cortex, temporal lobe -->
-    <div class="region" data-region="temporal lobe" style="top:400px; left:320px;">
-      <span class="bubble">Temporal lobe</span>
-    </div>
-
-    <!-- ▼ 区域： / Region: forebrain, Cerebral cortex, frontal lobe -->
-    <div class="region" data-region="frontal lobe" style="top:250px; left:500px;">
-      <span class="bubble">Frontal lobe</span>
-    </div>
-
-    <!-- ▼ 区域： / Region: midbrain -->
-    <div class="region" data-region="midbrain" style="top:315px; left:220px;">
-      <span class="bubble">Midbrain</span>
-    </div>
-
-    <!-- ▼ 区域： / Region: hindbrain, cerebellum -->
-    <div class="region" data-region="cerebellum" style="top:420px; left:80px;">
-      <span class="bubble">Cerebellum</span>
-    </div>
-
-    <!-- ▼ 区域： / Region: spinal cord -->
-    <div class="region" data-region="spinal cord" style="top:580px; left:180px;">
-      <span class="bubble">Spinal cord</span>
-    </div>
-
-
+    <img id="brain_base" src="/static/img/brain_base.png" class="brain-layer" />
+  
+    <!-- Transparent region images -->
+    <img src="/static/img/brain_1_cerebral_cortex.png" class="region" data-region="cerebral cortex">
+    <img src="/static/img/brain_2_temporal lobe.png" class="region" data-region="temporal lobe">
+    <img src="/static/img/brain_3_thalamus.png" class="region" data-region="thalamus">
+    <img src="/static/img/brain_5_cerebellum.png" class="region" data-region="cerebellum">
+    <img src="/static/img/brain_6_cerebral_nuclei.png" class="region" data-region="cerebral nuclei">
+    <img src="/static/img/brain_4_7_brainstem.png" class="region" data-region="brainstem">
+    <img src="/static/img/brain_8_spinal_cord.png" class="region" data-region="spinal cord">
   </div>
+
 
   <!-- 信息悬浮窗 / Tooltip -->
   <div id="tooltip"></div>
@@ -151,28 +157,68 @@
         panel.scrollIntoView({behavior:"smooth"});
       }
 
-      /* ---------- Tooltip 逻辑 / Tooltip logic ---------- */
-      const tooltip = document.getElementById("tooltip");
-      function showTooltip(e, regionName) {
-        const count = filterStudies(regionName).length;
-        tooltip.innerHTML = `<strong>${regionName}</strong><br>Articles: ${count}`;
-        tooltip.style.display = "block";
-        moveTooltip(e);
-      }
-      const moveTooltip = (e) => {
-        tooltip.style.left = `${e.pageX + 12}px`;
-        tooltip.style.top  = `${e.pageY + 12}px`;
-      };
-      function hideTooltip() { tooltip.style.display = "none"; }
+      // /* ---------- Tooltip 逻辑 / Tooltip logic ---------- */
+      // const tooltip = document.getElementById("tooltip");
+      // function showTooltip(e, regionName) {
+      //   const count = filterStudies(regionName).length;
+      //   tooltip.innerHTML = `<strong>${regionName}</strong><br>Articles: ${count}`;
+      //   tooltip.style.display = "block";
+      //   moveTooltip(e);
+      // }
+      // const moveTooltip = (e) => {
+      //   tooltip.style.left = `${e.pageX + 12}px`;
+      //   tooltip.style.top  = `${e.pageY + 12}px`;
+      // };
+      // function hideTooltip() { tooltip.style.display = "none"; }
 
-      /* ---------- 绑定事件 / Bind events ---------- */
-      document.querySelectorAll(".region").forEach(el => {
-        const regionName = el.dataset.region;
-        el.addEventListener("click", () => renderResults(regionName));
-        el.addEventListener("mouseenter", (e) => { el.classList.add("active"); showTooltip(e, regionName); });
-        el.addEventListener("mousemove", moveTooltip);
-        el.addEventListener("mouseleave", () => { el.classList.remove("active"); hideTooltip(); });
+
+    
+      const regions = document.querySelectorAll('.region');
+      let selectedRegion = null;
+
+      regions.forEach(region => {
+        region.addEventListener('mouseenter', () => {
+          if (!region.classList.contains('selected')) {
+            region.classList.add('hovered');
+            regions.forEach(other => {
+              if (other !== region && !other.classList.contains('selected')) {
+                other.style.opacity = '0.1';
+              }
+            });
+          }
+        });
+
+        region.addEventListener('mouseleave', () => {
+          if (!region.classList.contains('selected')) {
+            region.classList.remove('hovered');
+            regions.forEach(other => {
+              if (!other.classList.contains('selected')) {
+                other.style.opacity = '0.3';
+              }
+            });
+          }
+        });
+
+        region.addEventListener('click', () => {
+          if (selectedRegion) {
+            selectedRegion.classList.remove('selected');
+            selectedRegion.classList.remove('hovered');
+          }
+          region.classList.add('selected');
+          selectedRegion = region;
+
+          const name = region.getAttribute('data-region');
+          renderResults(name);
+
+          regions.forEach(other => {
+            if (!other.classList.contains('selected')) {
+              other.classList.remove('hovered');
+              other.style.opacity = '0.3';
+            }
+          });
+        });
       });
+
     })();
   </script>
 </body>
