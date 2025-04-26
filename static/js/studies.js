@@ -191,6 +191,91 @@ $(document).ready(function () {
     applyFilters();
   });
 
-  // 页面加载后初始化显示全部 / Initial load
+
+  
+
+  // 页面加载后初始化显示全部
   renderCards(allStudies);
+
+ // 下载筛选后的数据为CSV（带确认+时间戳）
+function downloadFilteredDataAsCSV() {
+  if (!confirm("确认要下载当前筛选结果吗？")) {
+    return; // 用户取消下载
+  }
+
+  const search = getSearchTerm();
+  const filters = {};
+
+  $(".filter-tag").each(function () {
+    const key = $(this).text().split("\n")[0].trim().toLowerCase();
+    const val = $(this).find("input").val().trim().toLowerCase();
+    if (val) filters[key] = val;
+  });
+
+  const fieldMap = {
+    "species": "Species",
+    "seq type": "Seq type",
+    "focus": "Focus",
+    "journal": "Journal",
+    "year": "Year of Publication",
+    "region": ["Region1", "Region2", "Region3", "Subregion1", "Subregion2", "Subregion3"]
+  };
+
+  const filteredData = allStudies.filter(study => {
+    const searchMatch =
+      (study["Publication title"] || "").toLowerCase().includes(search) ||
+      (study["Summary"] || "").toLowerCase().includes(search);
+
+    const filterMatch = Object.entries(filters).every(([key, val]) => {
+      const mapped = fieldMap[key];
+      if (!mapped) return true;
+      if (Array.isArray(mapped)) {
+        return mapped.some(f => (study[f] || "").toString().toLowerCase().includes(val));
+      } else {
+        return (study[mapped] || "").toString().toLowerCase().includes(val);
+      }
+    });
+
+    return searchMatch && filterMatch;
+  });
+
+  if (filteredData.length === 0) {
+    alert("当前无数据可下载！");
+    return;
+  }
+
+  let csv = "Publication Title,Summary,Species,Seq Type,Focus,Journal,Year of Publication,Dataset Link\n";
+  filteredData.forEach(study => {
+    const row = [
+      study["Publication title"] || "",
+      study["Summary"] || "",
+      study["Species"] || "",
+      study["Seq type"] || "",
+      study["Focus"] || "",
+      study["Journal"] || "",
+      study["Year of Publication"] || "",
+      study["Dataset Link"] || ""
+    ].map(field => `"${String(field || "").replace(/"/g, '""')}"`).join(",");
+    csv += row + "\n";
+  });
+
+  // 生成带日期的文件名
+  const today = new Date();
+  const dateStr = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+  const filename = `filtered_studies_${dateStr}.csv`;
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// 绑定下载按钮
+$(document).on("click", "#downloadCSV", function () {
+  downloadFilteredDataAsCSV();
+});
+
 });
