@@ -1,4 +1,3 @@
-<!-- templates/portrait.html  (可点击脑区汇总页面 / Portrait) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,32 +5,20 @@
   <title>NeuroView – Portrait</title>
   <link rel="stylesheet" href="/static/style.css" />
   <style>
-    /* ================= 基本布局 / Base layout ================ */
     body { margin: 0; font-family: "Segoe UI", sans-serif; background: #ffffff; }
     .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 30px; border-bottom:1px solid #e0e0e0; }
     .logo { font-size:22px; font-weight:bold; color:#2c3e50; }
     .nav-links { display:flex; gap:16px; }
     .nav-link { text-decoration:none; color:#2c5eff; font-weight:500; padding:6px 12px; border-radius:6px; }
     .nav-link:hover { background:#eef3ff; }
-
     h2 { text-align:center; margin:30px 0 10px; color:#2c3e50; }
     p.subtitle { text-align:center; color:#666; margin-bottom:30px; }
-
-    /* ================= 脑图与气泡 / Brain figure & bubbles ================ */
     .brain-wrapper { position:relative; max-width:820px; margin:0 auto; }
     .brain-wrapper img { width:100%; height:auto; display:block; }
-
-    /* 点击区域容器 / Region wrapper */
     .region { position:absolute; width:60px; height:60px; cursor:pointer; }
-    /* 小气泡 / Bubble label */
     .region .bubble { position:absolute; top:0; left:70px; white-space:nowrap; padding:4px 10px; background:#eaf2ff; color:#2c5eff; font-size:13px; border-radius:16px; box-shadow:0 0 0 2px #ffffff; transition:all .2s; }
-    /* 悬浮/激活效果 / Hover & active */
     .region.active .bubble, .region:hover .bubble { background:#ffc23c; color:#333; filter:drop-shadow(0 0 6px #ffc23c); }
-
-    /* ================= Tooltip 悬浮窗 ================= */
     #tooltip { position:fixed; z-index:9999; background:#ffffff; border:1px solid #ddd; border-radius:8px; padding:10px 14px; box-shadow:0 2px 8px rgba(0,0,0,.1); font-size:13px; color:#333; pointer-events:none; display:none; max-width:240px; }
-
-    /* ================= 结果面板 / Result panel ================ */
     #results-panel { max-width:1100px; margin:40px auto; padding:20px 30px; border:1px solid #ddd; border-radius:12px; background:#fafbfd; display:none; }
     #summary-box { display:flex; flex-wrap:wrap; gap:24px; margin-bottom:20px; font-weight:bold; color:#2c3e50; }
     #study-list { display:flex; flex-direction:column; gap:12px; max-height:500px; overflow-y:auto; }
@@ -42,7 +29,6 @@
   </style>
 </head>
 <body>
-  <!-- 顶部导航 / Top navigation -->
   <div class="topbar">
     <div class="logo">🧠 NeuroView</div>
     <div class="nav-links">
@@ -52,56 +38,51 @@
       <a class="nav-link" href="/help">Help</a>
     </div>
   </div>
-
   <h2>Anatomical Portrait</h2>
   <p class="subtitle">Hover or click a brain region to explore related studies</p>
 
-  <!-- 脑图容器 / Brain figure container -->
   <div class="brain-wrapper" id="brainWrapper">
     <img id="brainImg" src="/static/img/brain_portrait.png" alt="Brain diagram" />
 
-    <!-- ▼ 区域：大脑皮层 / Region: Cerebral Cortex -->
-    <div class="region" data-region="cerebral cortex" style="top:120px; left:320px;">
-      <span class="bubble">Cortex</span>
-    </div>
-
-    <!-- ▼ 区域：海马体 / Region: Hippocampus -->
-    <div class="region" data-region="hippocampus" style="top:260px; left:180px;">
-      <span class="bubble">Hippocampus</span>
-    </div>
-
-    <!-- 可在此处添加更多 .region 元素 / Add more .region elements here -->
+    <!-- 气泡位置重新调整/Updated bubble positions -->
+    <div class="region" data-region="brainstem" style="top:460px; left:310px;"><span class="bubble">Brainstem</span></div>
+    <div class="region" data-region="cerebral cortex" style="top:80px; left:500px;"><span class="bubble">Cerebral Cortex</span></div>
+    <div class="region" data-region="limbic system" style="top:250px; left:280px;"><span class="bubble">Limbic System</span></div>
+    <div class="region" data-region="embryos" style="top:600px; left:-300px;"><span class="bubble">Embryos</span></div>
+    <div class="region" data-region="cerebellum" style="top:500px; left:120px;"><span class="bubble">Cerebellum</span></div>
+    <div class="region" data-region="spinal cord" style="top:730px; left:280px;"><span class="bubble">Spinal Cord</span></div>
+    <div class="region" data-region="whole brain" style="top:20px; left:300px;"><span class="bubble">Whole Brain</span></div>
+    <div class="region" data-region="corpus callosum" style="top:180px; left:340px;"><span class="bubble">Corpus Callosum</span></div>
   </div>
 
-  <!-- 信息悬浮窗 / Tooltip -->
   <div id="tooltip"></div>
-
-  <!-- 结果面板 / Result panel -->
   <div id="results-panel">
     <div id="summary-box"></div>
     <div id="study-list"></div>
   </div>
 
-  <!-- 数据与脚本 / Data & scripts -->
   <script src="/static/js/studies_data.js"></script>
   <script>
     (function () {
-      /* ---------- 工具函数 / Helper functions ---------- */
       const toNumber = (x) => {
         const n = parseFloat(String(x).replace(/[^\d.]/g, ""));
         return isNaN(n) ? 0 : n;
       };
-      // 根据区域筛选研究 / Filter studies by region
+
+      // 根据 region 筛选数据 / Filter studies based on region
       function filterStudies(region) {
-        const fields = ["Region1","Region2","Region3","Subregion1","Subregion2","Subregion3"];
-        return allStudies.filter(s => fields.some(k => (s[k]||"").toLowerCase().includes(region.toLowerCase())));
+        if (region === 'embryos') {
+          return allStudies.filter(s => (s["Lifestage"] || "").toLowerCase().includes("embryo") || (s["Lifestage"] || "").toLowerCase().includes("development"));
+        }
+        const fields = ["Region1", "Region2", "Region3"];
+        return allStudies.filter(s => fields.some(k => (s[k] || "").toLowerCase().includes(region.toLowerCase())));
       }
 
-      /* ---------- 渲染结果 / Render results ---------- */
+      // 渲染点击气泡后的结果 / Render study summary and list
       function renderResults(regionName) {
         const studies = filterStudies(regionName);
         const totalSamples = studies.reduce((a,s)=>a+toNumber(s["Sample number"]),0);
-        const totalCells   = studies.reduce((a,s)=>a+toNumber(s["Cell number"]),0);
+        const totalCells = studies.reduce((a,s)=>a+toNumber(s["Cell number"]),0);
         const datasetCount = new Set(studies.map(s => s["Dataset Link"]).filter(Boolean)).size;
 
         document.getElementById("summary-box").innerHTML = `
@@ -124,7 +105,6 @@
         panel.scrollIntoView({behavior:"smooth"});
       }
 
-      /* ---------- Tooltip 逻辑 / Tooltip logic ---------- */
       const tooltip = document.getElementById("tooltip");
       function showTooltip(e, regionName) {
         const count = filterStudies(regionName).length;
@@ -138,7 +118,6 @@
       };
       function hideTooltip() { tooltip.style.display = "none"; }
 
-      /* ---------- 绑定事件 / Bind events ---------- */
       document.querySelectorAll(".region").forEach(el => {
         const regionName = el.dataset.region;
         el.addEventListener("click", () => renderResults(regionName));
