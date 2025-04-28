@@ -56,14 +56,14 @@
 
 
     /* 点击区域容器 / Region wrapper */
-    /* .region { position:absolute; width:60px; height:60px; cursor:pointer; } */
+    .region { position:absolute; width:60px; height:60px; cursor:pointer; }
     /* 小气泡 / Bubble label */
-    /* .region .bubble { position:absolute; top:0; left:70px; white-space:nowrap; padding:4px 10px; background:#eaf2ff; color:#2c5eff; font-size:13px; border-radius:16px; box-shadow:0 0 0 2px #ffffff; transition:all .2s; } */
+    .region .bubble { position:absolute; top:0; left:70px; white-space:nowrap; padding:4px 10px; background:#eaf2ff; color:#2c5eff; font-size:13px; border-radius:16px; box-shadow:0 0 0 2px #ffffff; transition:all .2s; }
     /* 悬浮/激活效果 / Hover & active */
-    /* .region.active .bubble, .region:hover .bubble { background:#ffc23c; color:#333; filter:drop-shadow(0 0 6px #ffc23c); } */
+    .region.active .bubble, .region:hover .bubble { background:#ffc23c; color:#333; filter:drop-shadow(0 0 6px #ffc23c); }
 
     /* ================= Tooltip 悬浮窗 ================= */
-    /* #tooltip { position:fixed; z-index:9999; background:#ffffff; border:1px solid #ddd; border-radius:8px; padding:10px 14px; box-shadow:0 2px 8px rgba(0,0,0,.1); font-size:13px; color:#333; pointer-events:none; display:none; max-width:240px; } */
+    #tooltip { position:fixed; z-index:9999; background:#ffffff; border:1px solid #ddd; border-radius:8px; padding:10px 14px; box-shadow:0 2px 8px rgba(0,0,0,.1); font-size:13px; color:#333; pointer-events:none; display:none; max-width:240px; }
 
     /* ================= 结果面板 / Result panel ================ */
     #results-panel { max-width:1100px; margin:40px auto; padding:20px 30px; border:1px solid #ddd; border-radius:12px; background:#fafbfd; display:none; }
@@ -95,7 +95,7 @@
   <div class="brain-wrapper" id="brainWrapper">
     <img id="brain_base" src="/static/img/brain_base.png" class="brain-layer" />
   
-    <!-- Transparent region images -->
+    <!-- Transparent region image layer -->
     <img src="/static/img/brain_1_cerebral_cortex.png" class="region" data-region="cerebral cortex">
     <img src="/static/img/brain_2_temporal lobe.png" class="region" data-region="temporal lobe">
     <img src="/static/img/brain_3_thalamus.png" class="region" data-region="thalamus">
@@ -157,26 +157,12 @@
         panel.scrollIntoView({behavior:"smooth"});
       }
 
-      // /* ---------- Tooltip 逻辑 / Tooltip logic ---------- */
-      // const tooltip = document.getElementById("tooltip");
-      // function showTooltip(e, regionName) {
-      //   const count = filterStudies(regionName).length;
-      //   tooltip.innerHTML = `<strong>${regionName}</strong><br>Articles: ${count}`;
-      //   tooltip.style.display = "block";
-      //   moveTooltip(e);
-      // }
-      // const moveTooltip = (e) => {
-      //   tooltip.style.left = `${e.pageX + 12}px`;
-      //   tooltip.style.top  = `${e.pageY + 12}px`;
-      // };
-      // function hideTooltip() { tooltip.style.display = "none"; }
-
-
-    
       const regions = document.querySelectorAll('.region');
       let selectedRegion = null;
 
       regions.forEach(region => {
+
+        // highlight the region that is hovered and dim others
         region.addEventListener('mouseenter', () => {
           if (!region.classList.contains('selected')) {
             region.classList.add('hovered');
@@ -188,6 +174,7 @@
           }
         });
 
+        // remove highlight when mouse leaves the region
         region.addEventListener('mouseleave', () => {
           if (!region.classList.contains('selected')) {
             region.classList.remove('hovered');
@@ -199,6 +186,7 @@
           }
         });
 
+        // show results when the region is clicked
         region.addEventListener('click', () => {
           if (selectedRegion) {
             selectedRegion.classList.remove('selected');
