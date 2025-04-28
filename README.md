@@ -1,47 +1,74 @@
 # NeuroView
 
-NeuroView is a simple web-based brain sample exploration platform developed to fulfill the core requirements of my BF768 project proposal.
+NeuroView is a web-based platform for exploring and visualizing brain-region multi-omics datasets through an intuitive, interactive interface.
 
-## Purpose
+---
 
-The aim of this project is to build a modular and interactive interface for exploring brain region datasets. It aligns directly with the proposal’s goals, including:
+## Features
 
-- Displaying structured metadata
-- Filtering by multiple biological attributes
-- Interactive visualization of selected brain regions
-- Linking dataset summaries with external references
-
-## Current Features
-
-- **Home Page**: Navigation hub linking to major modules
-- **Studies Page**:
-  - Dataset cards (title, summary, tags, dataset ID)
-  - Filter panel with search inputs by species, region, seq type, etc.
-  - Keyword search and dynamic card filtering (JavaScript-enabled)
-- **Portrait Page**:
-  - Brain image with clickable regions
-  - Region-based navigation to the Data Viewer
+- **Home**: Central hub linking to core modules
+- **Studies**: Searchable, filterable cards displaying study metadata (species, region, sequencing type, etc.) with CSV export
+- **Portrait**: Clickable anatomical brain atlas highlighting region-specific studies
 - **Data Viewer**:
-  - Accepts `region` as URL parameter
-  - Displays placeholder UMAP-style plot for selected brain region
+  - **JS Version**: Loads static JSON/JS files to render UMAP embeddings for selected regions
+  - **Server Version**: Queries a database for embeddings and metadata, producing live Plotly.js visualizations
+
+---
 
 ## Tech Stack
 
-- Flask (Python)
-- HTML / CSS / JavaScript
-- Plotly.js (for visualization)
-- Static JSON (used as initial data source)
+- **Backend**: Flask (Python)
+- **Frontend**: HTML, CSS, Vanilla JavaScript
+- **Visualization**: Plotly.js
+- **Data**: Static JSON/CSV (JS prototype), relational database (server deployment)
 
-## Future Work
+---
 
-- Integrate real dataset values and expression matrices
-- Add dropdowns (Atlas, Feature, Cell Type)
-- Support dataset detail pages and dynamic linking
+## Setup & Requirements
 
-## Run Locally
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/Temp0jd/NeuroView.git
+   cd NeuroView
+   ```
 
-```bash
-python app.py
-```
+2. **Install dependencies**
+   - A `requirements.txt` file should list all Python packages (e.g., Flask, pandas, Scanpy, SQLAlchemy, python-dotenv).
+   - To install:
+     ```bash
+     pip install -r requirements.txt
+     ```
 
-Then visit `http://127.0.0.1:5000` in your browser.
+3. **Database initialization** (server version)
+   ```bash
+   flask db init
+   flask db migrate
+   flask db upgrade
+   ```
+
+4. **Run the app**
+   ```bash
+   python app.py
+   ```
+
+5. **Access**
+   Open `http://127.0.0.1:5000/home` in your browser.
+
+---
+
+## Future Improvements
+
+- Allow user uploads of custom datasets (CSV/loom)
+- Add dropdown selectors for atlas, feature, cell type
+- Extend support for spatial transcriptomics and differential expression modules
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## Contact
+
+Questions or contributions? Contact **Xinyu Li** at <tempojd@bu.edu>.
+
