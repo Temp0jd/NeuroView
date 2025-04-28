@@ -1,0 +1,120 @@
+<!-- templates/help.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroView - Help</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- 样式部分 | Styles section -->
+  <style>
+    /* 全局样式 | Global styles */
+    body { margin:0; font-family:'Segoe UI',sans-serif; background-color:#f8f9fb; }
+
+    /*===== 顶部导航 Topbar ======*/
+    .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 30px; background-color:white; border-bottom:1px solid #e0e0e0; }
+    .logo { font-weight:bold; font-size:22px; color:#2c3e50; }
+    .nav-links { display:flex; gap:16px; }
+    .nav-link { text-decoration:none; color:#2c5eff; font-weight:500; padding:6px 12px; border-radius:6px; }
+    .nav-link:hover { background-color:#eef3ff; }
+
+    /*===== 主体内容 Content ======*/
+    .content { max-width:900px; margin:40px auto; padding:30px; background-color:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    h2,h3 { color:#2c3e50; }
+    h2 { margin-bottom:20px; }
+    h3 { margin-top:32px; margin-bottom:12px; }
+    p,li { line-height:1.6; font-size:15px; color:#333; }
+
+    /* FAQ 折叠样式 | FAQ accordion styles */
+    details { margin-bottom:12px; }
+    summary { cursor:pointer; font-weight:600; color:#2c5eff; outline:none; }
+    summary::-webkit-details-marker { display:none; }
+    summary::before { content:"➤ "; transition:transform .2s; }
+    details[open] summary::before { transform:rotate(90deg); }
+
+    /* 联系方式 Contact styles */
+    .team-list { list-style:none; padding:0; }
+    .team-list li { margin-bottom:10px; }
+    .person { font-weight:bold; color:#2c5eff; }
+    .email { font-style:italic; color:#555; }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <div class="topbar">
+    <div class="logo">NeuroView</div>
+    <div class="nav-links">
+      <a class="nav-link" href="../home">Home</a>
+      <a class="nav-link" href="../home/studies">Studies</a>
+      <a class="nav-link" href="../home/portrait">Portrait</a>
+      <a class="nav-link" href="../home/viewer">Data Viewer</a>
+      <a class="nav-link" href="../home/help">Help</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>Welcome to NeuroView</h2>
+    <p><strong>NeuroView</strong> is an open-source neuroscience multi-omics visualization platform designed to help researchers quickly search and explore publicly available single-cell (scRNA-seq/snRNA-seq) and ATAC-seq datasets through an intuitive interface. Filter studies by species, brain region, sequencing type, or research focus, and download results to accelerate your analysis.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Studies Page:</strong> Browse all curated studies, filter by tags, search by keywords, and export results to CSV.</li>
+      <li><strong>Portrait Page:</strong> Interactive brain atlas to explore region-specific studies and summary statistics.</li>
+      <li><strong>Data Viewer Page:</strong> Real-time UMAP/t-SNE visualizations. Select a brain region to instantly display its embedding plots and explore gene expression patterns dynamically.</li>
+      <li><strong>Future Upload Feature:</strong> Upload your own datasets (CSV/loom formats) directly to the server for private analysis.</li>
+      <li><strong>Planned Extensions:</strong> Custom annotation imports, spatial transcriptomics support, differential expression modules, and integration with external databases (GEO, ArrayExpress).</li>
+    </ul>
+
+    <h3>How to Use the Studies Page</h3>
+    <ol>
+      <li>Enter filters such as <em>Species</em> or <em>Seq type</em> above or type keywords in the <strong>Search</strong> box and click <strong>Search</strong>.</li>
+      <li>Click any <span style="color:#2c5eff">tag</span> to auto-fill the corresponding filter; click again to remove.</li>
+      <li>Click a study title to view the original publication; click <em>View Dataset</em> to download data.</li>
+      <li>Click <strong>Download CSV</strong> to export filtered results. Click <strong>Clear Filters</strong> to reset.</li>
+    </ol>
+
+    <h3>How to Use the Portrait Page</h3>
+    <ol>
+      <li>Hover over a bubble to highlight the brain region; a tooltip shows total study count and sample stats.</li>
+      <li>Click a bubble to open the results panel with summary info and a list of matching studies.</li>
+      <li>Access publications and datasets directly from the panel, similar to the Studies page.</li>
+    </ol>
+
+    <h3>How to Use the Data Viewer</h3>
+    <ol>
+      <li>Navigate to the <strong>Data Viewer</strong> page.</li>
+      <li>Select one or multiple brain regions from the dropdown or click on the interactive atlas.</li>
+      <li>The UMAP/t-SNE plot will update in real time to show only cells from the selected region(s).</li>
+      <li>Search for genes or metadata fields to overlay expression levels on the embedding.</li>
+      <li>Use the download button to save the current plot or underlying data.</li>
+    </ol>
+
+    <h3>Frequently Asked Questions</h3>
+    <details>
+      <summary>1. Why doesn't a tag respond when clicked?</summary>
+      <p>Ensure all data has loaded (wait if you see "Loading…"); refresh the page or check the console for errors if issues persist.</p>
+    </details>
+    <details>
+      <summary>2. How can I clear all filters at once?</summary>
+      <p>Click the <strong>Clear Filters</strong> button on the Studies page.</p>
+    </details>
+    <details>
+      <summary>3. The UMAP plot isn't updating—what now?</summary>
+      <p>Make sure you have an internet connection and that no errors appear in the browser console. If the problem persists, please contact us.</p>
+    </details>
+    <details>
+      <summary>4. How do I upload my own dataset?</summary>
+      <p>Once the upload feature is available, you will find an <em>Upload</em> button on the Data Viewer page. Supported formats: CSV, loom. Make sure your file follows the template provided.</p>
+    </details>
+
+    <h3>Contact Us</h3>
+    <p>If you encounter any issues or have suggestions for new features, please reach out:</p>
+    <ul class="team-list">
+      <li><span class="person">Xinyu Li</span> — <span class="email">tempojd@bu.edu</span></li>
+      <li><span class="person">Shihong Yuan</span> — <span class="email">yuansh24@bu.edu</span></li>
+      <li><span class="person">Wenshou He</span> — <span class="email">vhe@bu.edu</span></li>
+      <li><span class="person">Jinglin Han</span> — <span class="email">hanjingl@bu.edu</span></li>
+      <li><span class="person">Xuru Miao</span> — <span class="email">mxrbrea@bu.edu</span></li>
+    </ul>
+  </div>
+</body>
+</html>

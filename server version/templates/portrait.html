@@ -1,0 +1,193 @@
+<!-- templates/portrait.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NeuroView Portrait</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #ffffff;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 30px;
+      background: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #2c5eff;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .nav-link:hover {
+      background-color: #eef3ff;
+    }
+    h2 {
+      text-align: center;
+      margin: 30px 0 10px;
+      color: #2c3e50;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .brain-wrapper {
+      position: relative;
+      width: 820px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .brain-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .region {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+    .region .bubble {
+      width: auto;
+      height: auto;
+      line-height: normal;
+      position: absolute;
+      top: 0;
+      left: 70px;
+      white-space: nowrap;
+      padding: 4px 10px;
+      background: #eaf2ff;
+      color: #2c5eff;
+      font-size: 13px;
+      border-radius: 16px;
+      box-shadow: 0 0 0 2px #ffffff;
+      transition: all 0.2s;
+    }
+    .region.active .bubble,
+    .region:hover .bubble {
+      background: #ffc23c;
+      color: #333;
+      filter: drop-shadow(0 0 6px #ffc23c);
+    }
+    #tooltip {
+      position: fixed;
+      z-index: 9999;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      font-size: 13px;
+      color: #333;
+      pointer-events: none;
+      display: none;
+      max-width: 240px;
+    }
+    #results-panel {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px 30px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: #fafbfd;
+      display: none;
+    }
+    #summary-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    #study-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .study-item {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .study-item a.title {
+      color: #2c5eff;
+      text-decoration: none;
+    }
+    .study-item .meta {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .dataset-link {
+      font-size: 12px;
+      color: #2c5eff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="logo">NeuroView</div>
+    <div class="nav-links">
+      <a class="nav-link" href="../home">Home</a>
+      <a class="nav-link" href="../home/studies">Studies</a>
+      <a class="nav-link" href="../home/viewer">Data Viewer</a>
+      <a class="nav-link" href="../home/help">Help</a>
+    </div>
+  </div>
+
+  <h2>Anatomical Portrait</h2>
+  <p class="subtitle">Hover or click a brain region to explore related studies</p>
+
+  <div class="brain-wrapper" id="brainWrapper">
+    <img id="brainImg"
+     src="{{ url_for('static', filename='img/brain_portrait.png') }}"
+     alt="Brain diagram">
+
+
+    <div class="region" data-region="brainstem" style="top:460px; left:310px;"><span class="bubble">Brainstem</span></div>
+    <div class="region" data-region="cerebral cortex" style="top:80px; left:500px;"><span class="bubble">Cerebral Cortex</span></div>
+    <div class="region" data-region="limbic system" style="top:250px; left:280px;"><span class="bubble">Limbic System</span></div>
+    <div class="region" data-region="embryos" style="top:600px; left:-300px;"><span class="bubble">Embryos</span></div>
+    <div class="region" data-region="cerebellum" style="top:500px; left:120px;"><span class="bubble">Cerebellum</span></div>
+    <div class="region" data-region="spinal cord" style="top:730px; left:280px;"><span class="bubble">Spinal Cord</span></div>
+    <div class="region" data-region="whole brain" style="top:20px; left:300px;"><span class="bubble">Whole Brain</span></div>
+    <div class="region" data-region="corpus callosum" style="top:180px; left:340px;"><span class="bubble">Corpus Callosum</span></div>
+  </div>
+
+  <div id="tooltip"></div>
+
+  <div id="results-panel">
+    <div id="summary-box"></div>
+    <div id="study-list"></div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/portrait.js') }}"></script>
+</body>
+</html>

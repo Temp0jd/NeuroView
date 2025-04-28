@@ -1,0 +1,290 @@
+/* ===== 全局设置 / Global Settings ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fb;
+  }
+  
+  /* ===== 顶部导航栏 / Top Navigation Bar ===== */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 30px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .logo {
+    font-weight: bold;
+    font-size: 24px;
+    color: #2c3e50;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #2c5eff;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+  
+  .nav-link:hover {
+    background-color: #eef3ff;
+  }
+  
+  /* ===== 首页气泡按钮 / Home Bubbles ===== */
+  .container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 60px;
+  }
+  
+  .bubble {
+    width: 220px;
+    height: 220px;
+    background-color: transparent;
+    color: #2c3e50;
+    font-weight: bold;
+    border: 3px solid #2c5eff;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.3s, color 0.3s;
+  }
+  
+  .bubble:hover {
+    background-color: #2c5eff;
+    color: white;
+    transform: translateY(-5px);
+  }
+  
+  /* ===== Studies 筛选框 / Filters ===== */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .filter-tag {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: white;
+    font-size: 14px;
+    width: 160px;
+  }
+  
+  .filter-tag input {
+    margin-top: 6px;
+    padding: 4px 6px;
+    font-size: 13px;
+  }
+  
+  /* ===== 搜索框和按钮 / Search Box and Buttons ===== */
+  .search-box {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .search-box input {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .search-box button, #clearFilters, #downloadCSV {
+    padding: 6px 12px;
+    background-color: #2c5eff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .search-box button:hover, #clearFilters:hover, #downloadCSV:hover {
+    background-color: #1e4ed8;
+  }
+  
+  /* ===== Studies 卡片 / Study Cards ===== */
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 30px 60px;
+  }
+  
+  .study-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  .study-card h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: #2c5eff;
+    cursor: pointer;
+  }
+  
+  .study-card p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .tag {
+    background-color: #dff0ff;
+    color: #2c5eff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  #pagination {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* ===== Portrait 气泡图相关 / Brain Regions ===== */
+  .brain-wrapper {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  
+  .brain-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .region {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+  }
+  
+  .region .bubble {
+    position: absolute;
+    top: 0;
+    left: 70px;
+    white-space: nowrap;
+    padding: 4px 10px;
+    background: #eaf2ff;
+    color: #2c5eff;
+    font-size: 13px;
+    border-radius: 16px;
+    box-shadow: 0 0 0 2px #ffffff;
+    transition: all 0.2s;
+  }
+  
+  .region.active .bubble, .region:hover .bubble {
+    background: #ffc23c;
+    color: #333;
+    filter: drop-shadow(0 0 6px #ffc23c);
+  }
+  
+  /* ===== Tooltip 悬浮窗 ===== */
+  #tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    font-size: 13px;
+    color: #333;
+    pointer-events: none;
+    display: none;
+    max-width: 240px;
+  }
+  
+  /* ===== Portrait 页面结果区域 ===== */
+  #results-panel {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fafbfd;
+    display: none;
+  }
+  
+  #summary-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  #study-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  
+  .study-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .study-item a.title {
+    color: #2c5eff;
+    text-decoration: none;
+  }
+  
+  .study-item .meta {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+  }
+  
+  .dataset-link {
+    font-size: 12px;
+    color: #2c5eff;
+    text-decoration: none;
+  }
+  

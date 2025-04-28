@@ -1,0 +1,185 @@
+<!-- templates/studies.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroView - Studies</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fb;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 30px;
+      background-color: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 22px;
+      color: #2c3e50;
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #2c5eff;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .nav-link:hover {
+      background-color: #eef3ff;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 30px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    .filter-tag {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: white;
+      font-size: 14px;
+      width: 160px;
+    }
+    .filter-tag input {
+      margin-top: 6px;
+      padding: 4px 6px;
+      font-size: 13px;
+    }
+    .search-box {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-box input {
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .search-box button, #clearFilters, #downloadCSV {
+      padding: 6px 12px;
+      background-color: #2c5eff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px 30px 60px;
+    }
+    .study-card {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .study-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #2c5eff;
+      cursor: pointer;
+    }
+    .study-card p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #333;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .tag {
+      background-color: #dff0ff;
+      color: #2c5eff;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    #pagination {
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="logo">NeuroView</div>
+    <div class="nav-links">
+      <a class="nav-link" href="../home">Home</a>
+      <a class="nav-link" href="../home/portrait">Portrait</a>
+      <a class="nav-link" href="../home/viewer">Data Viewer</a>
+      <a class="nav-link" href="../home/help">Help</a>
+    </div>
+  </div>
+
+<div class="filters">
+  <div class="filter-tag">Species
+       <input data-key="species" type="text" placeholder="e.g. Human">
+  </div>
+  <div class="filter-tag">Seq type
+       <input data-key="seqtype" type="text" placeholder="e.g. snRNA-seq">
+  </div>
+  <div class="filter-tag">Region
+       <input data-key="region" type="text" placeholder="e.g. hippocampus">
+  </div>
+  <div class="filter-tag">Focus
+       <input data-key="focus" type="text" placeholder="e.g. Alzheimer's">
+  </div>
+  <div class="filter-tag">Journal
+       <input data-key="journal" type="text" placeholder="e.g. Nature">
+  </div>
+  <div class="filter-tag">Year
+       <input data-key="year" type="text" placeholder="e.g. 2023">
+  </div>
+
+  <div class="search-box">
+    <input data-key="search" type="text" placeholder="Search title or summary">
+    <button>Search</button>
+  </div>
+
+  <button id="clearFilters">Clear Filters</button>
+  <button id="downloadCSV">Download CSV</button>
+</div>
+
+
+
+  <div class="card-container"></div>
+
+
+  <div id="pagination"></div>
+
+
+  <script src="{{ url_for('static', filename='js/studies.js') }}"></script>
+</body>
+</html>

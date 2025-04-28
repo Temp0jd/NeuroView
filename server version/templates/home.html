@@ -1,0 +1,160 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroView - Home</title>
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    :root {
+      --color-primary: #2c5eff;
+      --color-secondary: #ffc23c;
+      --color-bg: #f7f9fc;
+      --color-white: #ffffff;
+      --fs-xl: 2.5rem;
+      --fs-lg: 1.75rem;
+      --fs-md: 1rem;
+      --fs-sm: 0.875rem;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--color-bg); color: #2c3e50; }
+
+    /* Topbar (consistent with other pages) */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 30px;
+      background-color: var(--color-white);
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--color-primary);
+    }
+    .nav-links { display: flex; gap: 16px; }
+    .nav-link {
+      text-decoration: none;
+      color: var(--color-primary);
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    .nav-link:hover { background-color: #eef3ff; }
+
+    /* Hero card 70% width */
+    .hero-container {
+      width: 70%;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      border-radius: 1rem;
+      text-align: center;
+      color: var(--color-white);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .hero-container h1 { font-size: var(--fs-xl); margin-bottom: 1rem; }
+    .hero-container p { font-size: var(--fs-lg); margin-bottom: 1.5rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--color-white);
+      color: var(--color-primary);
+      border: none;
+      border-radius: 0.5rem;
+      font-size: var(--fs-md);
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+
+    /* Features grid fixed 2x2 layout */
+    .features {
+      width: 70%;
+      margin: 0 auto;
+      display: grid;
+      gap: 2rem;
+      padding: 3rem 0;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .card {
+      background-color: var(--color-white);
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .card h3 { margin-bottom: 1rem; font-size: var(--fs-md); color: var(--color-primary); }
+    .card p { font-size: var(--fs-sm); margin-bottom: 1.5rem; color: #555; }
+    .card a { text-decoration: none; font-weight: 600; color: var(--color-secondary); }
+
+    /* Footer styling consistent */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: var(--fs-sm);
+      color: #888;
+      background-color: var(--color-white);
+      border-top: 1px solid #e0e0e0;
+    }
+    footer a { color: var(--color-primary); text-decoration: none; margin: 0 0.5rem; }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .hero-container, .features { width: 90%; grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">NeuroView</div>
+    <div class="nav-links">
+      <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+      <a href="{{ url_for('studies') }}" class="nav-link">Studies</a>
+      <a href="{{ url_for('portrait') }}" class="nav-link">Portrait</a>
+      <a href="{{ url_for('data_viewer') }}" class="nav-link">Data Viewer</a>
+      <a href="{{ url_for('help_page') }}" class="nav-link">Help</a>
+    </div>
+  </div>
+
+  <section class="hero-container">
+    <h1>Welcome to NeuroView</h1>
+    <p>An interactive platform to explore neuroscience multi-omics studies with ease.</p>
+    <a href="{{ url_for('studies') }}" class="btn">Explore Studies</a>
+  </section>
+
+  <section class="features">
+    <div class="card">
+      <h3>Studies</h3>
+      <p>Browse and filter curated single-cell & multi-omics datasets.</p>
+      <a href="{{ url_for('studies') }}">Go to Studies →</a>
+    </div>
+    <div class="card">
+      <h3>Portrait</h3>
+      <p>Interact with an anatomical brain atlas to find region-specific research.</p>
+      <a href="{{ url_for('portrait') }}">View Portrait →</a>
+    </div>
+    <div class="card">
+      <h3>Data Viewer</h3>
+      <p>Interactively visualize UMAP/t-SNE embeddings of selected brain regions and explore gene expression patterns.</p>
+      <a href="{{ url_for('data_viewer') }}">Go to Data Viewer →</a>
+    </div>
+    <div class="card">
+      <h3>Help & Support</h3>
+      <p>FAQs, tutorials, and team contact information for assistance.</p>
+      <a href="{{ url_for('help_page') }}">Get Help →</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 NeuroView • <a href="{{ url_for('help_page') }}">Help Center</a> • <a href="https://github.com/Temp0jd/NeuroView" target="_blank">GitHub Repo</a>
+  </footer>
+</body>
+</html>
