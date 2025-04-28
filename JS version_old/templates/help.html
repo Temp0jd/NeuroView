@@ -1,0 +1,96 @@
+<!-- templates/help.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroView - Help</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fb;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 30px;
+      background-color: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .topbar .logo {
+      font-weight: bold;
+      font-size: 22px;
+      color: #2c3e50;
+    }
+    .topbar .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #2c5eff;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .nav-link:hover {
+      background-color: #eef3ff;
+    }
+    .content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .person {
+      font-weight: bold;
+      color: #2c5eff;
+    }
+    .email {
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">🧠 NeuroView</div>
+    <div class="nav-links">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/studies">Studies</a>
+      <a class="nav-link" href="/portrait">Portrait</a>
+      <a class="nav-link" href="/viewer">Data Viewer</a>
+      <a class="nav-link" href="/help">Help</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>Need Help?</h2>
+    <p>If you encounter bugs or issues, please contact the following team members:</p>
+    <ul>
+      <li><span class="person">Xinyu Li</span> - <span class="email">tempojd@bu.edu</span></li>
+      <li><span class="person">Shihong Yuan</span> - <span class="email">yuansh24@bu.edu</span></li>
+      <li><span class="person">Wenshou He</span> - <span class="email">vhe@bu.edu</span></li>
+      <li><span class="person">Jinglin Han</span> - <span class="email">hanjingl@bu.edu</span></li>
+      <li><span class="person">Xuru Miao</span> - <span class="email">mxrbrea@bu.edu</span></li>
+      <!-- 填写你的姓名/邮箱之类的 -->
+    </ul>
+  </div>
+</body>
+</html>
