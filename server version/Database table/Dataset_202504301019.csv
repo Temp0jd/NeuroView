@@ -1,0 +1,42 @@
+"DID","Dataset_Link","Sample_Number","Lifestage","Seq_Type","Species"
+1,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE76381,,Fetal,scRNA-seq,human
+2,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101601,,,snRNA-seq,human
+3,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE87544,17,,snRNA-seq,Mus musculus
+4,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101901,6,w10,scRNA-seq,Mus musculus
+5,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121891,6,,scRNA-seq,Mus musculus
+6,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE100394,,e11.5-e13.5,scRNA-seq,Mus musculus
+7,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE138852,12,,snRNA-seq,human
+8,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE129519,21,"3 or 6 months",scRNA-seq,human
+9,https://prod-dcd-datasets-cache-zipfiles.s3.eu-west-1.amazonaws.com/ypx3sw2f7c-1.zip,,,scRNA-seq,Mus musculus
+10,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE122357,3,"d0,d8",scRNA-seq,Mus musculus
+11,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE118953,,e12.5 - e15,scRNA-seq,Mus musculus
+12,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE160486,3,w7-w8,scRNA-seq,Mus musculus
+13,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE142245,,,scRNA-seq,Mus musculus
+14,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE132730,,e10 - d14,scRNA-seq,Mus musculus
+15,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE136455,,,scRNA-seq,Mus musculus
+16,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE134918,,,scRNA-seq,Mus musculus
+17,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE117295,,,scRNA-seq,Mus musculus
+18,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE118403,,,scRNA-seq,Mus musculus
+19,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE158450,11,,scRNA-seq,Mus musculus
+20,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE161936,4289,,scRNA-seq,Mus musculus
+21,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE148822,95,,snRNA-seq,human
+22,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE164401,73,,scRNA-seq,Mus musculus
+23,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE163480,3,,snRNA-seq,Mus musculus
+24,http://mousebrain.org/development/downloads.html,,early stage,scRNA-seq,Mus musculus
+25,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174332,66,,snRNA-seq,human
+26,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147247,9,,scRNA-seq,Mus musculus
+27,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE182211,5552,,snRNA-seq,human
+28,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE157783,11,,snRNA-seq,human
+29,https://static-content.springer.com/esm/art%3A10.1038%2Fs41588-020-00773-z/MediaObjects/41588_2020_773_MOESM4_ESM.csv,11,,scRNA-seq,human
+30,https://github.com/LieberInstitute/10xPilot_snRNAseq-human,,,snRNA-seq,human
+31,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE185553,,"0.1y–88y, includes both mixed and individual samples",snRNA-seq,human
+32,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE198323,,"0.1y–88y, includes both mixed and individual samples",snRNA-seq,human
+33,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE199243,,"0.1y–88y, includes both mixed and individual samples",snRNA-seq,human
+34,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE160936,24,,snRNA-seq,human
+35,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168408,,"Gestational age: 22 and 24 weeks; postnatal: 1, 2, 3, 4, 5, 10 months; 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 17, 20, 25, and 40 years","snRNA-seq, snATAC-seq",human
+36,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE129308,27,,snRNA-seq,human
+37,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE163122,93,,snRNA-seq,human
+38,https://cellxgene.cziscience.com/e/4af83f0b-2ea7-4aed-a2c7-379877cdc8ae.cxg/,5,,scRNA-seq,Macaca mulatta
+39,https://cellxgene.cziscience.com/e/3dd26fea-1f47-455c-b255-078061119e73.cxg/,5,,scRNA-seq,Macaca mulatta
+40,https://cellxgene.cziscience.com/e/228286c6-7e17-41e0-b1fe-3b0b334e71cc.cxg/,5,,scRNA-seq,Macaca mulatta
+41,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207848,,"4w, 90w",snRNA-seq,Mus musculus
