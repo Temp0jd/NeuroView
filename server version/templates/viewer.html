@@ -1,61 +1,28 @@
-<!-- templates/viewer.html -->
+<!-- templates/viewer.html (composite‑region ready) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NeuroView - Data Viewer</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>NeuroView – Data Viewer</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <!-- Plotly GL -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9fb;
-    }
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 30px;
-      background-color: white;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .topbar .logo {
-      font-weight: bold;
-      font-size: 22px;
-      color: #2c3e50;
-    }
-    .topbar .nav-links {
-      display: flex;
-      gap: 16px;
-    }
-    .nav-link {
-      text-decoration: none;
-      color: #2c5eff;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 6px;
-    }
-    .nav-link:hover {
-      background-color: #eef3ff;
-    }
-    .viewer-panel {
-      padding: 30px;
-    }
-    .viewer-panel h2 {
-      color: #2c3e50;
-      margin-bottom: 20px;
-    }
-    .plot-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+    body {margin:0;font-family:'Segoe UI',sans-serif;background:#f9f9fb;}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 30px;background:#fff;border-bottom:1px solid #e0e0e0;}
+    .logo{font-weight:700;font-size:22px;color:#2c3e50;}
+    .nav-links{display:flex;gap:16px;}
+    .nav-link{text-decoration:none;color:#2c5eff;font-weight:500;padding:6px 12px;border-radius:6px;}
+    .nav-link:hover{background:#eef3ff;}
+    .viewer-panel{padding:30px;max-width:1200px;margin:auto;}
+    h2{color:#2c3e50;margin-bottom:12px;}
+    .controls{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+    select{padding:6px 10px;border:1px solid #c4c4c4;border-radius:6px;font-size:14px;}
+    .plot-box{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.05);}  
   </style>
 </head>
 <body>
-  <!-- top panel -->
+  <!-- ───── 顶部导航 ───── -->
   <div class="topbar">
     <div class="logo">NeuroView</div>
     <div class="nav-links">
@@ -66,42 +33,164 @@
     </div>
   </div>
 
-  <!-- Viewer Panel -->
+  <!-- ───── Viewer Panel ───── -->
   <div class="viewer-panel">
-    <h2 id="viewer-title">Region: Loading...</h2>
+    <h2 id="viewer-title">Region:</h2>
+
+    <!-- 选择器 -->
+    <div class="controls">
+      <label>
+        Region:
+        <select id="regionSelect"></select>
+      </label>
+      <label id="subRegionWrapper" style="display:none;">
+        Subregion:
+        <select id="subRegionSelect"></select>
+      </label>
+    </div>
+
     <div class="plot-box">
-      <div id="plot" style="height: 500px;"></div>
+      <div id="plot" style="height:600px;">Loading…</div>
     </div>
   </div>
 
   <script>
-    // get region from url query parameters
-    function getQueryParam(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
+  /* ---------- 配置：区域 ↔ 文件列表 & 子区域 ---------- */
+  const REGION_CONFIG = {
+    "Cerebellum": {files:["Adult_Cerebellum_umap.json"]},
+    "Corpus callosum": {files:["Adult_Corpus_callosum_umap.json"]},
+    "Limbic system": {files:["Adult_Limbic_system_umap.json"]},
+    "Prefrontal cortex": {files:["Adult_Prefrontal_cortex_umap.json"]},
+    "Spinal cord": {files:["Adult_Spinal_cord_umap.json"]},
+    "Brainstem": {
+      files:[
+        "Adult_Medulla_oblongata_umap.json",
+        "Adult_Midbrain_umap.json",
+        "Adult_Pons_umap.json"
+      ],
+      subregions:["Medulla oblongata","Midbrain","Pons"]
+    }
+  };
+
+  const POINT_SIZE = 3;
+  const DATA_PREFIX = "{{ url_for('static', filename='data') }}/"; // Flask 生成
+  const regionSelect   = document.getElementById('regionSelect');
+  const subRegionWrap  = document.getElementById('subRegionWrapper');
+  const subRegionSelect= document.getElementById('subRegionSelect');
+  const titleEl        = document.getElementById('viewer-title');
+  const plotDiv        = document.getElementById('plot');
+
+  /** 初始化下拉框 */
+  function initSelectors(){
+    Object.keys(REGION_CONFIG).forEach(r=>{
+      const opt=document.createElement('option');
+      opt.value=r; opt.textContent=r; regionSelect.appendChild(opt);
+    });
+  }
+
+  /** 根据 URL param 选中 region */
+  function syncFromURL(){
+    const urlParams=new URLSearchParams(location.search);
+    const region=urlParams.get('region')||'Brainstem';
+    regionSelect.value=region;
+    handleRegionChange(false);
+    const sub=urlParams.get('sub');
+    if(sub && subRegionSelect){
+      subRegionSelect.value=sub;
+      handleSubRegionChange(false);
+    }
+  }
+
+  /** 改变主区域 */
+  function handleRegionChange(pushState=true){
+    const region=regionSelect.value;
+    const cfg=REGION_CONFIG[region];
+    titleEl.textContent=`Region: ${region}`;
+
+    if(cfg.subregions){
+      subRegionWrap.style.display='inline-block';
+      // rebuild subregion select
+      subRegionSelect.innerHTML='';
+      ['All',...cfg.subregions].forEach(sr=>{
+        const opt=document.createElement('option');
+        opt.value=sr; opt.textContent=sr; subRegionSelect.appendChild(opt);
+      });
+    }else{
+      subRegionWrap.style.display='none';
+      subRegionSelect.innerHTML='';
     }
 
-    const region = getQueryParam("region") || "Unknown Region";
-    document.getElementById("viewer-title").textContent = `Region: ${region}`;
+    if(pushState){
+      const params=new URLSearchParams({region});
+      history.replaceState(null,'',`?${params.toString()}`);
+    }
 
-    const sampleData = {
-      x: Array.from({ length: 100 }, () => Math.random() * 20 - 10),
-      y: Array.from({ length: 100 }, () => Math.random() * 20 - 10),
-      mode: 'markers',
-      type: 'scatter',
-      marker: {
-        color: Array.from({ length: 100 }, () => Math.floor(Math.random() * 10)),
-        colorscale: 'Viridis',
-        showscale: true,
-        size: 6
-      },
-      text: Array.from({ length: 100 }, (_, i) => `${region} - Cell ${i + 1}`)
-    };
+    loadPlot();
+  }
 
-    Plotly.newPlot('plot', [sampleData], {
-      title: `UMAP Projection - ${region}`,
-      margin: { t: 40 }
+  /** 改变子区域 */
+  function handleSubRegionChange(pushState=true){
+    if(pushState){
+      const params=new URLSearchParams({region:regionSelect.value});
+      if(subRegionSelect.value!=='All') params.set('sub',subRegionSelect.value);
+      history.replaceState(null,'',`?${params.toString()}`);
+    }
+    loadPlot();
+  }
+
+  /** 加载并绘图 */
+  function loadPlot(){
+    const region=regionSelect.value;
+    const cfg=REGION_CONFIG[region];
+    const subSel=subRegionSelect && subRegionSelect.value;
+
+    // 选择文件列表
+    let files=[];
+    if(cfg.subregions && subSel && subSel!=='All'){
+      const idx=cfg.subregions.indexOf(subSel);
+      if(idx>-1) files=[cfg.files[idx]]; else files=cfg.files;
+    }else{
+      files=cfg.files;
+    }
+
+    plotDiv.textContent='Loading UMAP…';
+    Promise.all(files.map(f=>fetch(DATA_PREFIX+f).then(r=>{if(!r.ok)throw new Error('404');return r.json();})))
+      .then(jsonArrays=>jsonArrays.flat())
+      .then(data=>drawPlot(region,data))
+      .catch(err=>plotDiv.textContent=`❌ ${err}`);
+  }
+
+  /** 绘图：每个 cell_type 单独 trace + legend */
+  function drawPlot(region,data){
+    if(!data.length){plotDiv.textContent='No data';return;}
+    // group by cell_type
+    const byType={};
+    data.forEach(d=>{
+      const t=d.cell_type||'Unknown';
+      (byType[t]||(byType[t]=[])).push(d);
     });
+    const palette=['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b','#e377c2','#7f7f7f','#bcbd22','#17becf'];
+    const traces=Object.entries(byType).map(([t,arr],i)=>({
+      name:t,
+      x:arr.map(o=>+o.x),
+      y:arr.map(o=>+o.y),
+      mode:'markers',type:'scattergl',
+      marker:{size:POINT_SIZE,opacity:.8,color:palette[i%palette.length]},
+      text:arr.map(o=>`Cell type: ${t}<br>Sample: ${o.sample||o.donor_ID||''}`)
+    }));
+
+    Plotly.newPlot(plotDiv,traces,{
+      title:`UMAP – ${region}${subRegionSelect.value&&subRegionSelect.value!=='All'?` – ${subRegionSelect.value}`:''}`,
+      margin:{t:40,r:20},legend:{x:1.05},
+      xaxis:{title:'UMAP‑1'},yaxis:{title:'UMAP‑2'}
+    });
+  }
+
+  // ───── 初始化 ─────
+  initSelectors();
+  regionSelect.addEventListener('change',()=>handleRegionChange());
+  subRegionSelect.addEventListener('change',()=>handleSubRegionChange());
+  syncFromURL();
   </script>
 </body>
 </html>
