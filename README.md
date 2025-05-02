@@ -22,7 +22,6 @@
 ## Project Structure
 
 ```text
-C:.
 |   LICENSE
 |   README.md
 |   requirements.txt
